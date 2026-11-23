@@ -162,6 +162,23 @@ a{color:inherit}
 .dish h3{margin:0;font-size:clamp(34px,5.2vw,74px);transition:font-stretch .45s cubic-bezier(.2,.8,.2,1),color .3s}
 .dish p{margin:0;color:var(--ink-soft);font-size:17px}
 .dish:hover h3,.dish:focus-within h3,.dish:focus h3{font-stretch:100%;color:var(--magenta)}
+/* Touch screens: the dish in the middle of the screen lights up and opens its photo */
+.dish-pic{grid-column:1/-1;height:0;overflow:hidden;border-radius:8px;transition:height .55s cubic-bezier(.2,.8,.2,1)}
+.dish-pic img{width:100%;height:220px;object-fit:cover;transform:scale(1.12);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.dish.active .dish-pic{height:220px}
+.dish.active .dish-pic img{transform:scale(1)}
+.dish.active h3{font-stretch:100%;color:var(--magenta)}
+.dish .tap{display:none}
+@media (hover:none){
+  .dish{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .dish .tap{display:block;position:absolute;right:0;top:30px;width:30px;height:30px;border-radius:50%;background:var(--fog);transition:transform .4s,background .3s}
+  .dish .tap::before,.dish .tap::after{content:"";position:absolute;left:8px;right:8px;top:14px;height:2px;background:var(--navy)}
+  .dish .tap::after{transform:rotate(90deg);transition:transform .4s}
+  .dish.active .tap{background:var(--magenta);transform:rotate(180deg)}
+  .dish.active .tap::before,.dish.active .tap::after{background:#fff}
+  .dish.active .tap::after{transform:rotate(0)}
+  .dish h3{padding-right:40px}
+}
 .peek{position:fixed;z-index:40;left:0;top:0;width:260px;aspect-ratio:4/5;border-radius:8px;overflow:hidden;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.7) rotate(-6deg);transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 30px 60px -20px rgba(20,26,51,.5)}
 .peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}
 .peek img{width:100%;height:100%;object-fit:cover}
@@ -550,6 +567,28 @@ footer .r{margin-left:auto}
       el.addEventListener('mouseleave',function(){peek.classList.remove('on')});
       el.addEventListener('mousemove',function(e){peek.style.left=e.clientX+'px';peek.style.top=e.clientY+'px'});
     });
+  }
+
+  // Touch screens: no hover, so the dish crossing the middle of the screen opens itself; a tap opens or closes it
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var dishes=[].slice.call(d.querySelectorAll('.dish')),manual=0;
+    dishes.forEach(function(el){
+      var w=d.createElement('div');w.className='dish-pic';
+      w.innerHTML='<img loading="lazy" alt="" src="'+el.dataset.img+'">';
+      el.appendChild(w);
+      var t=d.createElement('span');t.className='tap';t.setAttribute('aria-hidden','true');el.appendChild(t);
+      el.addEventListener('click',function(){
+        manual=Date.now();
+        var open=el.classList.contains('active');
+        dishes.forEach(function(x){x.classList.remove('active')});
+        if(!open)el.classList.add('active');
+      });
+    });
+    var dio=new IntersectionObserver(function(es){
+      if(Date.now()-manual<1500)return;
+      es.forEach(function(e){if(e.isIntersecting){dishes.forEach(function(x){x.classList.toggle('active',x===e.target)})}});
+    },{rootMargin:'-42% 0px -48% 0px'});
+    dishes.forEach(function(el){dio.observe(el)});
   }
 
   // Reveal on scroll
