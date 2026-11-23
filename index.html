@@ -141,9 +141,11 @@ a{color:inherit}
 .pass-head p{margin:0;font:600 13px/1 var(--mono);color:#AEB5D6}
 .pass-head .lamp{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--orange);margin-right:8px;box-shadow:0 0 12px var(--orange);animation:blink 2.4s infinite}
 @keyframes blink{50%{opacity:.35}}
-.belt{display:flex;gap:18px;width:max-content;animation:belt 48s linear infinite}
-.pass:hover .belt{animation-play-state:paused}
-@keyframes belt{to{transform:translateX(-50%)}}
+/* Scrollable track: moves on its own, but can be swiped with a finger or scrolled with a trackpad */
+.belt-wrap{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;cursor:grab}
+.belt-wrap::-webkit-scrollbar{display:none}
+.belt-wrap.drag{cursor:grabbing}
+.belt{display:flex;gap:18px;width:max-content;padding:0 var(--gut)}
 .belt figure{margin:0;width:clamp(220px,22vw,300px);flex:none}
 .belt img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:6px;transition:transform .4s}
 .belt figure:hover img{transform:scale(1.03) rotate(-1deg)}
@@ -262,7 +264,6 @@ footer .r{margin-left:auto}
   .top .pill{display:none}
   .burger{display:block;margin-left:auto;background:none;border:0;font:700 16px var(--sans);color:var(--navy);padding:10px 0;cursor:pointer}
   .peek{display:none}
-  .pass-head p:last-child{display:none}
 }
 @media (max-width:520px){
   body{font-size:16px}
@@ -344,8 +345,9 @@ footer .r{margin-left:auto}
   <section class="pass" aria-label="Scatti realizzati per i clienti">
     <div class="wrap pass-head">
       <p><span class="lamp"></span>Dal pass: foto scattate nei locali dei clienti</p>
-      <p>passa sopra per fermare</p>
+      <p>trascina o scorri</p>
     </div>
+    <div class="belt-wrap" id="beltWrap">
     <div class="belt" id="belt">
       <figure><img src="/images/portfolio/ristorazione-tagliere.jpg" alt="Tagliere di salumi e formaggi con birra" width="1272" height="1578"><figcaption>Tagliere, pizzeria con cucina</figcaption></figure>
       <figure><img src="/images/portfolio/food-bakery-02.jpg" alt="Pain au chocolat con caffè e un libro aperto" width="800" height="1000"><figcaption>Colazione, panetteria</figcaption></figure>
@@ -354,6 +356,7 @@ footer .r{margin-left:auto}
       <figure><img src="/images/portfolio/food-bakery-03.jpg" alt="Treccia dolce lievitata con calice di vino" width="800" height="1600"><figcaption>Lancio di un nuovo dolce</figcaption></figure>
       <figure><img src="/images/portfolio/ristorazione-tavolo.jpg" alt="Tavolo con hamburger e birre" width="1300" height="1600"><figcaption>La campagna del weekend</figcaption></figure>
       <figure><img src="/images/portfolio/food-bakery-01.jpg" alt="Brioche sfogliata con fragole, caffè e uovo" width="1920" height="1080"><figcaption>Colazione in sala</figcaption></figure>
+    </div>
     </div>
   </section>
 
@@ -508,6 +511,36 @@ footer .r{margin-left:auto}
   var belt=d.getElementById('belt');
   belt.innerHTML+=belt.innerHTML;
   [].slice.call(belt.querySelectorAll('figure')).slice(7).forEach(function(f){f.setAttribute('aria-hidden','true');f.querySelector('img').alt=''});
+
+  // The belt drifts on its own; touch, wheel or mouse drag take over, then it resumes
+  var bw=d.getElementById('beltWrap'),pos=1,held=false,hover=false,resumeT,last=performance.now(),speed=.045;
+  function half(){return belt.scrollWidth/2}
+  function hold(){held=true;clearTimeout(resumeT)}
+  function release(){clearTimeout(resumeT);resumeT=setTimeout(function(){held=false;pos=bw.scrollLeft},1600)}
+  bw.addEventListener('touchstart',hold,{passive:true});
+  bw.addEventListener('touchend',release,{passive:true});
+  bw.addEventListener('wheel',function(){hold();release()},{passive:true});
+  bw.addEventListener('mouseenter',function(){hover=true});
+  bw.addEventListener('mouseleave',function(){hover=false;pos=bw.scrollLeft});
+  // Mouse drag for desktop
+  var dragX=null,startL=0,moved=false;
+  bw.addEventListener('mousedown',function(e){dragX=e.clientX;startL=bw.scrollLeft;moved=false;bw.classList.add('drag');hold();e.preventDefault()});
+  addEventListener('mousemove',function(e){if(dragX===null)return;var dx=e.clientX-dragX;if(Math.abs(dx)>3)moved=true;bw.scrollLeft=startL-dx});
+  addEventListener('mouseup',function(){if(dragX===null)return;dragX=null;bw.classList.remove('drag');release()});
+  bw.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation()}},true);
+  bw.addEventListener('scroll',function(){
+    var h=half();
+    // keep the loop seamless in both directions
+    if(bw.scrollLeft>=h){bw.scrollLeft-=h;if(dragX!==null)startL-=h}
+    else if(bw.scrollLeft<=0){bw.scrollLeft+=h;if(dragX!==null)startL+=h}
+    if(held||hover)pos=bw.scrollLeft;
+  },{passive:true});
+  function drift(t){
+    var dt=Math.min(64,t-last);last=t;
+    if(!held&&!hover&&!reduce){pos+=speed*dt;var h=half();if(pos>=h)pos-=h;bw.scrollLeft=pos}
+    requestAnimationFrame(drift);
+  }
+  requestAnimationFrame(drift);
 
   // Services: the photo follows the cursor over each dish
   var peek=d.getElementById('peek'),peekImg=d.getElementById('peekImg');
