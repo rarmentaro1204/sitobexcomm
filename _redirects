@@ -1,0 +1,2 @@
+# Images are served from the previous deploy until they are copied into this repo
+/images/*  https://6a9276823f94887ed71c1208--mellow-bunny-9b1563.netlify.app/images/:splat  200
