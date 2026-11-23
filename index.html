@@ -29,13 +29,12 @@
       "@type": ["ProfessionalService", "LocalBusiness"],
       "@id": "https://bexcomm.it/#business",
       "name": "BEX Communication",
-      "description": "Agenzia di comunicazione e marketing digitale dedicata a ristoranti, pizzerie, pasticcerie, bar, hotel e botteghe alimentari di Torino e provincia.",
+      "description": "Team di comunicazione e marketing digitale dedicato a ristoranti, pizzerie, pasticcerie, bar, hotel e botteghe alimentari di Torino e provincia.",
       "url": "https://bexcomm.it/",
       "logo": "https://bexcomm.it/images/brand/bex-logo.png",
       "image": "https://bexcomm.it/images/og-cover.jpg",
       "email": "r.armentaro@bexcomm.it",
       "telephone": "+39 345 036 1009",
-      "founder": {"@type": "Person", "name": "Roberto Armentaro"},
       "address": {"@type": "PostalAddress", "addressLocality": "Alpignano", "addressRegion": "TO", "addressCountry": "IT"},
       "areaServed": [{"@type": "City", "name": "Torino"}, {"@type": "AdministrativeArea", "name": "Città metropolitana di Torino"}, {"@type": "AdministrativeArea", "name": "Piemonte"}],
       "knowsAbout": ["siti web per ristoranti", "social media per ristoranti", "fotografia food", "Google Ads", "Meta Ads", "menù e materiale stampato", "brand identity"]
@@ -46,7 +45,7 @@
         {"@type": "Question", "name": "Quanto costa un sito per un ristorante?", "acceptedAnswer": {"@type": "Answer", "text": "Dipende da quante pagine servono e da cosa deve fare: prenotazioni, menù digitale, ordini online. Dopo una prima chiacchierata ricevi un preventivo scritto, voce per voce, senza costi nascosti."}},
         {"@type": "Question", "name": "Cosa comprende la gestione dei social?", "acceptedAnswer": {"@type": "Answer", "text": "Un piano editoriale mensile, la produzione di foto, video e testi, la pubblicazione e una revisione a fine mese su cosa ha funzionato."}},
         {"@type": "Question", "name": "Quanto ci vuole per vedere risultati dalla pubblicità?", "acceptedAnswer": {"@type": "Answer", "text": "I primi dati arrivano in due o tre settimane. Per ottimizzare davvero una campagna servono uno o due mesi di monitoraggio."}},
-        {"@type": "Question", "name": "Lavori anche fuori Torino?", "acceptedAnswer": {"@type": "Answer", "text": "Sì. La base è ad Alpignano e il lavoro è soprattutto a Torino e in Piemonte; per progetti che non richiedono shooting sul posto anche altrove."}}
+        {"@type": "Question", "name": "Lavorate anche fuori Torino?", "acceptedAnswer": {"@type": "Answer", "text": "Sì. La base è ad Alpignano e il lavoro è soprattutto a Torino e in Piemonte; per progetti che non richiedono shooting sul posto anche altrove."}}
       ]
     }
   ]
@@ -192,13 +191,23 @@ a{color:inherit}
 .c3{background:var(--orange);color:var(--navy)}
 .c4{background:var(--violet);color:#fff}
 
-/* ===== Who ===== */
+/* ===== Brigade: the team, station by station ===== */
 .who{background:var(--navy);color:#fff;overflow:hidden}
-.who .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
-.who blockquote{margin:0;font:italic 500 clamp(34px,4.6vw,64px)/1.08 var(--serif)}
+.who-head{display:grid;grid-template-columns:1fr 1fr;gap:24px 56px;align-items:end}
+.who-head h2{margin:0}
+.who-head p{margin:0;color:#C9CEE6;font-size:19px;max-width:52ch}
+.crew{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.2)}
+.crew li{padding:28px 28px 34px 0;border-bottom:1px solid rgba(255,255,255,.2)}
+.crew li:not(:nth-child(3n+1)){padding-left:28px;border-left:1px solid rgba(255,255,255,.2)}
+.crew .role{display:inline-block;font:600 13px/1 var(--mono);padding:8px 12px;border-radius:999px;background:var(--orange);color:var(--navy)}
+.crew li:nth-child(2) .role,.crew li:nth-child(5) .role{background:var(--magenta);color:#fff}
+.crew li:nth-child(3) .role,.crew li:nth-child(6) .role{background:var(--violet);color:#fff}
+.crew li:nth-child(4) .role{background:#fff;color:var(--navy)}
+.crew h3{margin:18px 0 8px;font:800 clamp(28px,2.6vw,38px)/1 var(--sans);font-stretch:72%;transition:font-stretch .45s cubic-bezier(.2,.8,.2,1)}
+.crew li:hover h3{font-stretch:95%}
+.crew p{margin:0;color:#C9CEE6;font-size:16px;max-width:34ch}
+.who blockquote{margin:64px 0 0;font:italic 500 clamp(32px,4.4vw,60px)/1.1 var(--serif);max-width:20ch}
 .who blockquote em{font-style:normal;color:var(--orange)}
-.who p{color:#C9CEE6;max-width:52ch}
-.who .name{font:800 22px/1 var(--sans);font-stretch:80%;color:#fff;margin-top:28px}
 
 /* ===== FAQ ===== */
 .faq-list{margin-top:44px;border-top:2px solid var(--navy);max-width:900px}
@@ -241,7 +250,10 @@ footer .r{margin-left:auto}
   .steps::before,.steps::after{display:none}
   .card{grid-template-columns:1fr;position:relative;top:auto!important}
   .card img{height:300px}
-  .who .wrap{grid-template-columns:1fr}
+  .who-head{grid-template-columns:1fr}
+  .crew{grid-template-columns:1fr 1fr}
+  .crew li:not(:nth-child(3n+1)){padding-left:0;border-left:0}
+  .crew li:nth-child(even){padding-left:24px;border-left:1px solid rgba(255,255,255,.2)}
 }
 @media (max-width:820px){
   .top nav{display:none;position:absolute;top:74px;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:6px var(--gut) 18px;box-shadow:0 10px 20px -10px rgba(0,0,0,.2)}
@@ -255,6 +267,8 @@ footer .r{margin-left:auto}
 @media (max-width:520px){
   body{font-size:16px}
   .steps{grid-template-columns:1fr}
+  .crew{grid-template-columns:1fr}
+  .crew li:nth-child(even){padding-left:0;border-left:0}
   footer .r{margin-left:0}
 }
 @media (prefers-reduced-motion:reduce){
@@ -274,9 +288,10 @@ footer .r{margin-left:auto}
       <a href="#servizi">Servizi</a>
       <a href="#ricetta">Come lavoro</a>
       <a href="#lavori">Lavori</a>
+      <a href="#brigata">Chi siamo</a>
       <a href="#faq">Domande</a>
     </nav>
-    <a class="pill" href="#ordina">Scrivimi</a>
+    <a class="pill" href="#ordina">Scriveteci</a>
   </div>
 </header>
 
@@ -292,7 +307,7 @@ footer .r{margin-left:auto}
             <span class="line"><span class="rise">per <span class="roller" id="roller"><span>pizzerie.</span><span>pasticcerie.</span><span>ristoranti.</span><span>panetterie.</span><span>bar.</span><span>botteghe.</span><span>pizzerie.</span></span></span></span>
           </span>
         </h1>
-        <p class="hero-sub">BEX lavora solo con chi fa da mangiare, tra <b>Torino e provincia</b>. Sito, social, foto, pubblicità e menù stampati: un solo referente, dalla prima foto all'ultimo report.</p>
+        <p class="hero-sub">BEX è un team che lavora solo con chi fa da mangiare, tra <b>Torino e provincia</b>. Fotografi, sviluppatori, grafici e social media manager per sito, social, foto, pubblicità e menù stampati, con un solo referente.</p>
         <div class="hero-cta">
           <a class="pill hot" href="#ordina">Chiedi una proposta</a>
           <a class="pill ghost" href="#lavori">Guarda i lavori</a>
@@ -345,7 +360,7 @@ footer .r{margin-left:auto}
   <section class="sec" id="servizi" aria-labelledby="h-servizi">
     <div class="wrap">
       <h2 id="h-servizi" class="cond rv">Cosa c'è in carta</h2>
-      <p class="lede rv">Si ordina alla carta o il percorso completo. In ogni caso parli sempre con la stessa persona.</p>
+      <p class="lede rv">Si ordina alla carta o il percorso completo. Ogni piatto ha chi se ne occupa, ma tu parli sempre con lo stesso referente.</p>
       <ul class="dishes">
         <li class="dish rv" tabindex="0" data-img="/images/portfolio/food-bakery-01.jpg"><h3 class="cond">Sito web</h3><p>Menù sempre aggiornato, prenotazioni e ordini online. Pensato per il telefono, perché è da lì che ti cercano.</p></li>
         <li class="dish rv" tabindex="0" data-img="/images/portfolio/ristorazione-grigliata.jpg"><h3 class="cond">Social</h3><p>Piano editoriale del mese, testi e pubblicazione su Instagram, Facebook e TikTok.</p></li>
@@ -363,7 +378,7 @@ footer .r{margin-left:auto}
       <h2 id="h-ricetta" class="cond rv">La ricetta</h2>
       <p class="lede rv">Dalla prima chiacchierata al primo report passano poche settimane. I passaggi sono sempre questi.</p>
       <ol class="steps" id="steps">
-        <li><div class="dot">1</div><h3>Mise en place</h3><p class="kitchen">vengo a vedere il locale</p><p>Chi sono i clienti, cosa vendi di più, quali canali usi già e come rendono.</p></li>
+        <li><div class="dot">1</div><h3>Mise en place</h3><p class="kitchen">veniamo a vedere il locale</p><p>Chi sono i clienti, cosa vendi di più, quali canali usi già e come rendono.</p></li>
         <li><div class="dot">2</div><h3>La ricetta</h3><p class="kitchen">decidiamo cosa serve</p><p>Obiettivi, canali e contenuti, nero su bianco e con i costi.</p></li>
         <li><div class="dot">3</div><h3>In cottura</h3><p class="kitchen">si produce</p><p>Sito, shooting, campagne e stampati, con la tua approvazione a ogni passo.</p></li>
         <li><div class="dot">4</div><h3>L'assaggio</h3><p class="kitchen">ogni mese si corregge</p><p>Guardiamo i risultati e si aggiusta di sale dove serve.</p></li>
@@ -396,15 +411,21 @@ footer .r{margin-left:auto}
     </div>
   </section>
 
-  <section class="sec who" aria-labelledby="h-who">
+  <section class="sec who" id="brigata" aria-labelledby="h-who">
     <div class="wrap">
-      <blockquote class="rv">Quando scrivi, rispondo io. Quando c'è da scattare, <em>vengo io.</em></blockquote>
-      <div class="rv">
-        <h2 id="h-who" class="sr-only">Chi risponde</h2>
-        <p>Dietro BEX c'è Roberto Armentaro. Lavoro da Alpignano e mi muovo tra Torino e provincia con la macchina fotografica in borsa.</p>
-        <p>Se un lavoro richiede altre mani, come una tipografia o un videomaker, le scelgo e le coordino io. Tu continui ad avere un solo numero da chiamare.</p>
-        <p class="name">Roberto Armentaro</p>
+      <div class="who-head">
+        <h2 id="h-who" class="cond rv">La brigata</h2>
+        <p class="rv">In cucina ognuno ha la sua postazione, e il servizio esce perché lavorano insieme. Da noi è lo stesso: ogni progetto passa da più mani, ma tu hai sempre un solo referente.</p>
       </div>
+      <ul class="crew">
+        <li class="rv"><span class="role">Chef</span><h3>Strategia e referente</h3><p>Ascolta il locale, decide la ricetta e tiene i contatti con te dal primo giorno.</p></li>
+        <li class="rv"><span class="role">Fotografia</span><h3>Foto e video</h3><p>Shooting nel locale: piatti, sala, persone e materie prime.</p></li>
+        <li class="rv"><span class="role">Sviluppo</span><h3>Siti ed e-commerce</h3><p>Siti veloci, menù digitali, prenotazioni e ordini online.</p></li>
+        <li class="rv"><span class="role">Social</span><h3>Contenuti e community</h3><p>Piano editoriale, testi, pubblicazione e risposte ai clienti.</p></li>
+        <li class="rv"><span class="role">Grafica</span><h3>Brand e stampa</h3><p>Logo, menù, insegne e tutto quello che va in tipografia.</p></li>
+        <li class="rv"><span class="role">Performance</span><h3>Pubblicità e numeri</h3><p>Campagne Google e Meta, report mensile e budget dove rende.</p></li>
+      </ul>
+      <blockquote class="rv">Più mani in cucina, <em>un solo numero</em> da chiamare.</blockquote>
     </div>
   </section>
 
@@ -415,8 +436,8 @@ footer .r{margin-left:auto}
         <details><summary>Quanto costa un sito per un ristorante?</summary><p>Dipende da quante pagine servono e da cosa deve fare: prenotazioni, menù digitale, ordini online. Dopo una prima chiacchierata ricevi un preventivo scritto, voce per voce, senza costi nascosti.</p></details>
         <details><summary>Cosa comprende la gestione dei social?</summary><p>Un piano editoriale mensile, la produzione di foto, video e testi, la pubblicazione e una revisione a fine mese su cosa ha funzionato.</p></details>
         <details><summary>Quanto ci vuole per vedere risultati dalla pubblicità?</summary><p>I primi dati arrivano in due o tre settimane. Per ottimizzare davvero una campagna servono uno o due mesi di monitoraggio.</p></details>
-        <details><summary>Con che tipo di attività lavori?</summary><p>Tutto il food: ristoranti, pizzerie, pasticcerie, panetterie, bar, hotel e negozi alimentari.</p></details>
-        <details><summary>Lavori anche fuori Torino?</summary><p>Sì. La base è ad Alpignano e lavoro soprattutto a Torino e in Piemonte. Per progetti che non richiedono shooting sul posto, anche altrove.</p></details>
+        <details><summary>Con che tipo di attività lavorate?</summary><p>Tutto il food: ristoranti, pizzerie, pasticcerie, panetterie, bar, hotel e negozi alimentari.</p></details>
+        <details><summary>Lavorate anche fuori Torino?</summary><p>Sì. La base è ad Alpignano e lavoriamo soprattutto a Torino e in Piemonte. Per progetti che non richiedono shooting sul posto, anche altrove.</p></details>
       </div>
     </div>
   </section>
@@ -424,8 +445,8 @@ footer .r{margin-left:auto}
   <section class="sec order" id="ordina" aria-labelledby="h-ordina">
     <div class="wrap">
       <h2 id="h-ordina" class="cond">Si ordina!</h2>
-      <p class="lede">Raccontami in due righe cosa fai e cosa ti serve. Entro 24 ore ricevi una proposta su misura.</p>
-      <a class="bell" href="https://wa.me/393450361009?text=Ciao%20Roberto%2C%20ho%20un%20locale%20e%20vorrei%20una%20proposta" rel="noopener" aria-label="Scrivimi su WhatsApp">
+      <p class="lede">Raccontaci in due righe cosa fai e cosa ti serve. Entro 24 ore ricevi una proposta su misura.</p>
+      <a class="bell" href="https://wa.me/393450361009?text=Ciao%20BEX%2C%20ho%20un%20locale%20e%20vorrei%20una%20proposta" rel="noopener" aria-label="Scrivici su WhatsApp">
         <span>
           <svg viewBox="0 0 80 56" aria-hidden="true"><path d="M40 4a4 4 0 0 1 4 4v3c15 2 26 14 26 30H10c0-16 11-28 26-30V8a4 4 0 0 1 4-4z" fill="#fff"/><rect x="2" y="44" width="76" height="8" rx="4" fill="#FF7A2F"/></svg>
           Suona il<br>campanello
